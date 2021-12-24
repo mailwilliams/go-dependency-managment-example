@@ -9,9 +9,10 @@ $ brew install graphviz
 2. Run this command 
 ```
 $ cat graph_base.dot >> graph.dot && \
-  go mod graph | sed -Ee 's/@[^[:blank:]]+//g' | sort | uniq | awk '{print "\""$1"\" -> \""$2"\""};' >> test.dot && echo "}" >> graph.dot && \
+  go mod graph | sed -Ee 's/@[^[:blank:]]+//g' | sort | uniq | awk '{print "\""$1"\" -> \""$2"\""};' >> graph.dot && echo "}" >> graph.dot && \
   sed -i '' 's+\("github.com/[^/]*/\)\([^"]*"\)+\1\\n\2+g' graph.dot && \
-  sfdp -Tsvg -o graph.svg graph.dot
+  sfdp -Tsvg -o graph.svg graph.dot && \
+  rm graph.dot
 ```
 3. Ta Da!
 ![](./graph.svg)
