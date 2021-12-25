@@ -6,14 +6,22 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func IndexHandler(c *gin.Context) {
-	c.JSON(200, gin.H{
+func BaseHandler(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{
 		"message": "hello world",
+	})
+}
+
+func getNameHandler(c *gin.Context) {
+	name := c.Params.ByName("name")
+	c.JSON(http.StatusOK, gin.H{
+		"message": "hello " + name,
 	})
 }
 
 func main() {
 	router := gin.Default()
-	router.GET("/", IndexHandler)
-	http.ListenAndServe(":8080", router)
+	router.GET("/", BaseHandler)
+	router.GET("/:name", getNameHandler)
+	_ = http.ListenAndServe(":8080", router)
 }
